@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://localhost:4000/admin",
+  baseURL: "https://project-hub-backend.onrender.com/admin",
 });

@@ -18,7 +18,7 @@ function Navbar() {
 
   const handleLogout = async () => {
     dispatch(changeAdminStatus());
-    try {u
+    try {
       await axios.get("/logout", {
         withCredentials:true,
       });
