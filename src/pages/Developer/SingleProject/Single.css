@@ -1,0 +1,51 @@
+.custom-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  /* border: 1px solid #b30101; */
+  background-color: rgb(31 41 55);;
+}
+
+
+.app {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app_boards_container {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  padding-top: 20px;
+}
+
+.app_boards {
+  height: 100%;
+  width: fit-content;
+  padding: 10px 30px;
+  gap: 30px;
+  display: flex;
+}
+
+.app_boards_last {
+  flex-basis: 290px;
+  min-width: 290px;
+}
+
+.app_boards_add-board {
+  background-color:rgb(31 41 55);
+  color: white;
+  border-radius: 10px;
+  box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.12);
+  width: 100%;
+  text-align: center;
+}
+.app_boards_add-board_edit {
+  background-color: rgb(31 41 55);;
+}
