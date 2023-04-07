@@ -24,7 +24,7 @@ export const ContextProvider = ({ children }) => {
   // for chat
   const [selectedChat, setSelectedChat] = useState();
   const [chats, setChats] = useState();
-  const [notification, setNotification] = useState(0);
+  const [notification, setNotification] = useState([]);
 
   const setMode = (e) => {
     setCurrentMode(e.target.value);

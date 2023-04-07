@@ -65,7 +65,7 @@ function AddDeveloper() {
       },
       {
         withCredentials: true,
-      // eslint-disable-next-line comma-dangle
+        // eslint-disable-next-line comma-dangle
       }
     );
     if (data.status) {
@@ -96,7 +96,6 @@ function AddDeveloper() {
         <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
           <Navbar />
         </div>
-    
         <div className="mt-10 h-screen">
           <div className="relative flex flex-col justify-center  overflow-hidden">
             <div className="w-full h-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
@@ -183,17 +182,6 @@ function AddDeveloper() {
                   <span aria-label="dollar sign">$</span>{" "}
                   <span aria-label="percent">%</span>
                 </p>
-
-                {/* <div className="flex items-center border-b py-2">
-                  <input
-                    className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                    type="file"
-                    placeholder="Profile image"
-                    name="image"
-                    accept="image/*"
-                    onChange={(e) => setImage(e.target.files[0])}
-                  />
-                </div> */}
                 <div className="mt-5">
                   {validPwd && validName ? (
                     <button
@@ -211,6 +199,7 @@ function AddDeveloper() {
           </div>
         </div>
         <ToastContainer />
+
         <Footer />
       </div>
     </div>

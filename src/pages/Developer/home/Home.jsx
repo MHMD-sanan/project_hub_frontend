@@ -22,9 +22,8 @@ function Home() {
   const isLogin = useSelector((state) => state.developerLogin.value);
 
   useEffect(() => {
-    console.log(isLogin);
-    if(isLogin===false) navigate("/developer/login")
-  },[])
+    if (isLogin === false) navigate("/developer/login");
+  }, []);
 
   const gotoProject = async (id, role) => {
     try {
@@ -56,7 +55,7 @@ function Home() {
   return (
     <div>
       <Navbar />
-      <div className="flex justify-between bg-gray-900 h-screen mt-16">
+      <div className="flex flex-col md:flex-row md:justify-between bg-gray-900 mt-16 h-full md:h-screen">
         {loading ? (
           <Spinner
             size="xl"
@@ -68,7 +67,7 @@ function Home() {
           />
         ) : (
           <>
-            <div className="flex justify-center h-full w-1/3">
+            <div className="flex justify-center h-fit md:h-screen md:w-1/3">
               <div className="flex flex-col">
                 <img
                   src={loggedDeveloper.user.imgPath}
@@ -90,8 +89,8 @@ function Home() {
                 </Link>
               </div>
             </div>
-            <div className="flex justify-center h-full w-2/3">
-              <div className="flex flex-col md:w-3/4 md:h-3/4 mt-10 overflow-y-scroll">
+            <div className="flex justify-center h-fit md:h-screen md:w-2/3">
+              <div className="flex flex-col md:w-3/4 md:h-3/4 mt-10 overflow-y-scroll w-full">
                 <h1 className="flex justify-center mb-10 font-bold text-white text-2xl">
                   Your Ongoing Projects
                 </h1>

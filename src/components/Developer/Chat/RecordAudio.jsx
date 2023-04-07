@@ -39,11 +39,11 @@ function RecordAudio() {
   return (
     <div>
       {recording ? (
-        <AiOutlinePauseCircle className="text-4xl" onClick={stopRecording} />
+        <AiOutlinePauseCircle className="text-3xl mt-2 text-gray-700" onClick={stopRecording} />
       ) : (
-        <AiFillAudio className="text-4xl" onClick={startRecording} />
+        <AiFillAudio className="text-3xl mt-2 text-gray-700" onClick={startRecording} />
       )}
-      <button onClick={playRecording}>Play Recording</button>
+      {/* <button onClick={playRecording}>Play Recording</button> */}
     </div>
   );
 }

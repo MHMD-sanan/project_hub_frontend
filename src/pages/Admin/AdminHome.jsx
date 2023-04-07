@@ -67,7 +67,7 @@ const AdminHome = () => {
             </div>
           ) : (
             <div className="mt-12">
-              <div className="flex gap-4 mx-4 ">
+              <div className="mx-4 gap-4 md:flex">
                 <BoxWrapper>
                   <div className="rounded-full h-12 w-12 flex items-center justify-center bg-yellow-400">
                     <IoPeople className="text-2xl text-white" />
@@ -126,7 +126,7 @@ const AdminHome = () => {
 };
 function BoxWrapper({ children }) {
   return (
-    <div className="bg-white rounded-lg p-4 flex-1 flex items-center">
+    <div className="bg-white rounded-lg p-4 flex-1 flex items-center my-2">
       {children}
     </div>
   );

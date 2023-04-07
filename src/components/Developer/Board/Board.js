@@ -138,7 +138,7 @@ function Board(props) {
       >
         {props.board?.cards?.map((item) => (
           <Card
-            key={item.id}
+            key={item._id}
             card={item}
             boardId={props.board._id}
             removeCard={props.removeCard}

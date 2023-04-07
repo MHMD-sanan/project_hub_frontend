@@ -1,5 +1,4 @@
 import { Avatar, Box, Stack, Text, useToast } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
 import React, { useEffect } from "react";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
@@ -11,8 +10,6 @@ function MyChats() {
     loggedDeveloper,
     selectedChat,
     setSelectedChat,
-    setNotification,
-    notification,
   } = useStateContext();
   const toast = useToast();
   const axios = useAxiosPrivate();
@@ -67,14 +64,6 @@ function MyChats() {
         alignItems="center"
       >
         My Chats
-        {/* <Button
-          display="flex"
-          bg={"blue.800"}
-          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-          rightIcon={<AddIcon />}
-        >
-          New Group Chat
-        </Button> */}
       </Box>
       <Box
         display="flex"
@@ -90,10 +79,9 @@ function MyChats() {
               <Box
                 onClick={() => {
                   setSelectedChat(chat);
-                  setNotification(0);
                 }}
                 cursor="pointer"
-                bg={selectedChat === chat ? "#111827" : "#374151"}
+                bg={selectedChat?._id === chat?._id ? "#111827" : "#374151"}
                 px={3}
                 py={2}
                 borderRadius="lg"
@@ -107,7 +95,6 @@ function MyChats() {
                       mr={1}
                       size="sm"
                       name={chat.project.name}
-                      // src={m.sender.imgPath}
                     />
                     <div>
                       <Text>{chat.project.name}</Text>
@@ -122,13 +109,6 @@ function MyChats() {
                       )}
                     </div>
                   </div>
-                  {selectedChat !== chat ? (
-                    <div className=" bg-gray-900 rounded-full h-fit w-fit p-1">
-                      {notification}
-                    </div>
-                  ) : (
-                    ""
-                  )}
                 </div>
               </Box>
             ))}

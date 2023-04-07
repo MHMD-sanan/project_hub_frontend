@@ -3,7 +3,7 @@ import React from "react";
 import {useStateContext} from "../../../contexts/ContextProvider";
 import SingleChat from "./SingleChat";
 
-function ChatBox() {
+function ChatBox({fetchAgain, setFetchAgain}) {
   const { selectedChat } = useStateContext();
   return (
     <>
@@ -16,7 +16,7 @@ function ChatBox() {
         borderRadius="lg"
         className="bg-gray-800"
       >
-        <SingleChat />
+        <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
       </Box>
     </>
   );

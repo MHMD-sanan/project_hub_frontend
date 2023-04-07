@@ -110,15 +110,15 @@ function Profile() {
   return (
     <div>
       <Navbar />
-      <div className="flex bg-gray-900 h-screen mt-16">
-        <div className="flex flex-col md:h-full md:w-1/3">
+      <div className="flex flex-col md:flex-row bg-gray-900 h-screen mt-16">
+        <div className="flex flex-col md:h-full md:w-1/3 items-center">
           <img
             src={values.imgPath}
             alt="profile img"
-            className="rounded-full w-44 h-44 md:ml-28 mt-20"
+            className="rounded-full w-44 h-44 mt-20"
           />
           <input
-            className="text-white md:ml-24 md:mt-5"
+            className="text-white mt-5 ml-24"
             type="file"
             required
             accept="image/*"
@@ -168,13 +168,6 @@ function Profile() {
             />
           </div>
           <div className="flex justify-center">
-            {/* <button
-              type="button"
-              className=" bg-gray-900 border-1 border-slate-800 text-white font-semibold rounded-lg"
-              onClick={handleChanges}
-            >
-              Save Changes
-            </button> */}
             <div className="p-3 mt-10">
               <Button colorScheme="blue" isLoading={loading} onClick={handleChanges}>Save Changes</Button>
             </div>

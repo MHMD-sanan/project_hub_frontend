@@ -16,23 +16,27 @@ function Developer() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route
+          path="/"
+          element={isLogin ? <Home /> : <Navigate to="/developer/login" />}
+        />
         <Route path="/developer/">
           <Route path="login" element={<Login />} />
-          <Route
-            path="home"
-            element={isLogin ? <Home /> : <Navigate to="/developer/login" />}
-          />
           <Route
             path="profile"
             element={isLogin ? <Profile /> : <Navigate to="/developer/login" />}
           />
           <Route
             path="project"
-            element={isLogin ? <SinlgeProject /> : <Navigate to="/developer/login" />}
+            element={
+              isLogin ? <SinlgeProject /> : <Navigate to="/developer/login" />
+            }
           />
           <Route
             path="discussion"
-            element={isLogin ? <Community /> : <Navigate to="/developer/login" />}
+            element={
+              isLogin ? <Community /> : <Navigate to="/developer/login" />
+            }
           />
           <Route
             path="Chat"

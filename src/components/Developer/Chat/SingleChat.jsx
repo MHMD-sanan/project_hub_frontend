@@ -10,7 +10,8 @@ import {
 } from "@chakra-ui/react";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
-import { BsFillEmojiSmileFill } from "react-icons/bs";
+import { AiOutlineLink } from "react-icons/ai";
+import { GrEmoji } from "react-icons/gr";
 import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
@@ -21,9 +22,15 @@ import RecordAudio from "./RecordAudio";
 const ENDPONIT = "http://localhost:4000";
 var socket, selectedChatCompare;
 
-function SingleChat() {
-  const { selectedChat, setSelectedChat, loggedDeveloper, setChats } =
-    useStateContext();
+function SingleChat({ fetchAgain, setFetchAgain }) {
+  const {
+    selectedChat,
+    setSelectedChat,
+    loggedDeveloper,
+    setChats,
+    notification,
+    setNotification,
+  } = useStateContext();
   const axios = useAxiosPrivate();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState();
@@ -81,16 +88,6 @@ function SingleChat() {
         setChats(data.chats);
         socket.emit("new message", data.message);
         setMessages([...messages, data.message]);
-        socket.on("message recieved", (newMessageRecieved) => {
-          if (
-            !selectedChatCompare ||
-            selectedChatCompare._id !== newMessageRecieved.chat._id
-          ) {
-            // give notifiction
-          } else {
-            setMessages([...messages, newMessageRecieved]);
-          }
-        });
       } catch (error) {
         console.log(error);
       }
@@ -108,18 +105,21 @@ function SingleChat() {
     selectedChatCompare = selectedChat;
   }, [selectedChat]);
 
-  // useEffect(() => {
-  //   socket.on("message recieved", (newMessageRecieved) => {
-  //     if (
-  //       !selectedChatCompare ||
-  //       selectedChatCompare._id !== newMessageRecieved.chat._id
-  //     ) {
-  //       // give notifiction
-  //     } else {
-  //       setMessages([...messages, newMessageRecieved]);
-  //     }
-  //   });
-  // });
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      if (
+        !selectedChatCompare ||
+        selectedChatCompare._id !== newMessageRecieved.chat._id
+      ) {
+        setNotification([...notification, newMessageRecieved]);
+      } else {
+        setMessages([...messages, newMessageRecieved]);
+      }
+      // reload the whole chat for realtime updatation ie fecth full chats
+    });
+  });
+
+  console.log(notification);
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
@@ -189,8 +189,8 @@ function SingleChat() {
               mt={3}
               display="flex"
             >
-              <BsFillEmojiSmileFill
-                className="mt-1 mx-2 text-4xl text-gray-700"
+              <GrEmoji
+                className="mt-2 mx-1 text-3xl text-gray-700"
                 onClick={() => setShowImojiPicker(!showImojiPicker)}
               />
               <div className="absolute -top-96 h-14">
@@ -202,6 +202,7 @@ function SingleChat() {
                   />
                 )}
               </div>
+              <AiOutlineLink className="mt-2 mr-1 text-3xl text-gray-700" />
               <Input
                 variant="filled"
                 bg="#1f2937"

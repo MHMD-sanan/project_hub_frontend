@@ -38,7 +38,7 @@ function Login() {
         setLoggedDeveloper({ accessToken, user });
         setProjects(data.details.projects);
         setLoading(false);
-        navigate("/developer/home");
+        navigate("/");
       } else {
         setLoading(false);
         generateError(data.message);
@@ -56,27 +56,36 @@ function Login() {
           <h1 className="flex justify-center text-gray-900  text-xl font-semibold">
             <p className="text-white text-2xl">Developer Login Page</p>
           </h1>
-          <input
-            className="mt-10 rounded-lg w-96 h-12 bg-gray-900 p-5 text-white"
-            type="text"
-            placeholder="User Name"
-            name="name"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            className="mt-3 rounded-lg w-96 h-12 bg-gray-900 p-5 text-white"
-            type="password"
-            required
-            placeholder="User Password"
-            name="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <div className="mt-5">
-          <Button variant="solid" colorScheme="blue" size="md" width="40" isLoading={loading} onClick={handleLogin}>
-            Login
-          </Button>
-      </div>
+          <form action="" className="flex flex-col">
+            <input
+              className="mt-10 rounded-lg md:w-96 h-12 bg-gray-900 p-5 text-white"
+              type="text"
+              placeholder="Name"
+              name="name"
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              className="mt-3 rounded-lg md:w-96 h-12 bg-gray-900 p-5 text-white"
+              type="password"
+              required
+              placeholder="Password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <div className="mt-5">
+              <Button
+                variant="solid"
+                colorScheme="blue"
+                size="md"
+                width="40"
+                isLoading={loading}
+                onClick={handleLogin}
+              >
+                Login
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
       <ToastContainer />

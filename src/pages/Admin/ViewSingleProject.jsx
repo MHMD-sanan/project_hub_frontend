@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import { TiDeleteOutline } from "react-icons/ti";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { Navbar, Sidebar, Footer } from "../../components/Admin";
+import { Button, useToast } from "@chakra-ui/react";
 import axios from "../../api/admin";
 
 function ViewSingleProject() {
@@ -17,12 +17,9 @@ function ViewSingleProject() {
   const [developer, setDeveloper] = useState();
   const [members, setMembers] = useState([]);
   const [teamLead, setTeamLead] = useState([]);
-
-  const generateError = (err) => {
-    toast.error(err, {
-      position: "top-right",
-    });
-  };
+  const [status, setStatus] = useState();
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   // use to show the developers list
   useEffect(() => {
@@ -46,11 +43,30 @@ function ViewSingleProject() {
       const { data } = await axios.patch("/add_team", ids);
       if (data.status) {
         setMembers(data.project.team);
+        toast({
+          title: "Developer added successfully",
+          status: 'success',
+          duration: 3000,
+          position: "top-right",
+          isClosable: true,
+        });
       } else {
-        generateError(data.message);
+        toast({
+          title: "Developer already exist",
+          status: 'error',
+          duration: 3000,
+          position: "top-right",
+          isClosable: true,
+        });
       }
     } catch (error) {
-      generateError(error.message);
+      toast({
+        title: error.message,
+        status: 'error',
+        duration: 5000,
+        position: "top-right",
+        isClosable: true,
+      });
     }
   };
 
@@ -71,6 +87,30 @@ function ViewSingleProject() {
     const { data } = await axios.patch("/delete_team_member", values);
     setMembers(data.project.team);
   };
+
+  const updateStatus = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.patch("/update_project_status", { status, selectedProject });
+      setSingleProject(data.project);
+      setLoading(false);
+      toast({
+        title: "Status updated successfully",
+        status: 'success',
+        duration: 3000,
+        position: "top-right",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: error.message,
+        status: 'error',
+        duration: 5000,
+        position: "top-right",
+        isClosable: true,
+      });
+    }
+  }
 
   return (
     <div className="flex relative dark:bg-main-dark-bg">
@@ -119,36 +159,28 @@ function ViewSingleProject() {
                 </div>
 
                 <div className="flex flex-col border-b py-2 ">
-                  <div className="flex justify-between">
-                    <div className="">
-                      <input
-                        className="px-2 py-3 border-1 rounded-full text-center"
-                        type="text"
-                        placeholder="Search for developers"
-                      />
-                    </div>
-                    {/* to select from developers */}
-                    <div>
-                      <select
-                        className="ml-16 bg-white py-3"
-                        name="developer"
-                        onChange={(e) => setDeveloper(e.target.value)}
-                      >
-                        <option value="">Select developers</option>
-                        {developers.map((item) => (
-                          <option key={item._id} value={item._id}>
-                            {item.name}
-                          </option>
-                        ))}
-                      </select>
-                      <button
-                        onClick={addDeveloper}
-                        type="button"
-                        className="bg-blue-700 py-1 px-2 rounded-lg text-white mx-2"
-                      >
-                        Add
-                      </button>
-                    </div>
+                  {/* to select from developers */}
+                  <div>
+                    <select
+                      className=" bg-white py-3"
+                      name="developer"
+                      onChange={(e) => setDeveloper(e.target.value)}
+                    >
+                      <option value="">Select developers</option>
+                      {developers.map((item) => (
+                        <option key={item?._id} value={item?._id}>
+                          {item?.name}
+                        </option>
+                      ))}
+                    </select>
+                    <Button onClick={addDeveloper} variant="solid" colorScheme="facebook" ml={2} isLoading={false}>Add</Button>
+                    {/* <button
+                      onClick={addDeveloper}
+                      type="button"
+                      className="bg-blue-700 py-1 px-2 rounded-lg text-white mx-2"
+                    >
+                      Add Developer
+                    </button> */}
                   </div>
                   {/* to view each members */}
                   <div className="flex w-full flex-wrap">
@@ -160,11 +192,11 @@ function ViewSingleProject() {
                             className="bg-blue-800 h-fit w-fit shadow-lg rounded-full m-3"
                           >
                             <p className="px-4 py-2 text-white">
-                              {item.developerId.name}{" "}
+                              {item.developerId?.name}{" "}
                               <button
                                 type="button"
                                 onClick={
-                                  () => deleteDeveloper(item.developerId._id)
+                                  () => deleteDeveloper(item.developerId?._id)
                                   // eslint-disable-next-line react/jsx-curly-newline
                                 }
                               >
@@ -179,7 +211,7 @@ function ViewSingleProject() {
                   </div>
                 </div>
 
-                <div className="flex items-center border-b py-2">
+                <div className="flex items-center py-2">
                   <select
                     className="ml-2 bg-white py-3"
                     name="developer"
@@ -189,47 +221,44 @@ function ViewSingleProject() {
                     {members
                       ? members.map((item) => (
                           // eslint-disable-next-line react/jsx-indent
-                          <option key={item._id} value={item.developerId._id}>
-                            {item.developerId.name}
+                          <option key={item?._id} value={item.developerId?._id}>
+                            {item.developerId?.name}
                           </option>
                           // eslint-disable-next-line indent
                         ))
                       : ""}
                   </select>
-                  <button
-                    onClick={addTeamLead}
-                    type="button"
-                    className="bg-blue-700 py-1 px-2 rounded-lg text-white mx-2"
-                  >
-                    Add
-                  </button>
+                  <Button onClick={addTeamLead} variant="solid" colorScheme="facebook" ml={2} isLoading={false}>Add</Button>
                 </div>
                 {singleProject.teamLead ? (
-                  <div className="flex w-full flex-wrap">
+                  <div className="flex w-full flex-wrap border-b">
                     <div className="bg-blue-800 h-fit w-fit shadow-lg rounded-full m-3">
                       <p className="px-4 py-2 text-white">
-                        {singleProject.teamLead.name}{" "}
+                        {singleProject.teamLead?.name}{" "}
                       </p>
                     </div>
                   </div>
                 ) : (
                   ""
                 )}
-                {/* <Link to="/admin/projects">
-                  <div className="mt-5">
-                    <Button
-                      color="white"
-                      bgColor="#1E4DB7"
-                      text="Save changes"
-                      borderRadius="10px"
-                    />
-                  </div>
-                </Link> */}
+                <div className="mt-2">
+                  <select
+                    className=" bg-white py-3"
+                    name="status"
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    <option value="">{singleProject?.status}</option>
+                    <option value="not started">not started</option>
+                    <option value="started">started</option>
+                    <option value="due">due</option>
+                    <option value="completed">completed</option>
+                  </select>
+                  <Button onClick={updateStatus} variant="solid" colorScheme="facebook" ml={2} isLoading={loading}>Update status</Button>
+                </div>
               </form>
             </div>
           </div>
         </div>
-        <ToastContainer />
         <Footer />
       </div>
     </div>

@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { changeAdminStatus } from "../../redux/admin/adminAuth";
+import { changeStatus } from "../../redux/developer/developerAuth";
 import { useNavigate } from "react-router-dom";
 import axios from "../../api/developer";
+import { BellIcon } from "@chakra-ui/icons";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import NotificationBadge, { Effect } from "react-notification-badge";
+
+import { useStateContext } from "../../contexts/ContextProvider";
 
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { notification, setNotification, setSelectedChat,loggedDeveloper } = useStateContext();
   const Links = [
-    { name: "HOME", link: "/developer/home" },
+    { name: "HOME", link: "/" },
     { name: "CHAT", link: "/developer/chat" },
     { name: "LOGOUT", link: "/developer/login" },
   ];
@@ -17,10 +23,10 @@ function Navbar() {
   const [open, setOpen] = useState(false);
 
   const handleLogout = async () => {
-    dispatch(changeAdminStatus());
+    dispatch(changeStatus());
     try {
       await axios.get("/logout", {
-        withCredentials:true,
+        withCredentials: true,
       });
       navigate("/developer/login");
     } catch (error) {
@@ -72,14 +78,31 @@ function Navbar() {
             )
           )}
           <li className="md:ml-8 text-md md:my-0 my-7">
-            {/* <NavLink
-              to="/"
-              className={`${
-                open ? "text-black" : ""
-              }text-white hover:text-gray-200 duration-500`}
-            >
-              <img src={avatar} alt="profile img" className="rounded-full w-8 h-8" />
-            </NavLink> */}
+            <Menu>
+            <MenuButton p={1}>
+              <NotificationBadge
+                count={notification.length}
+                effect={Effect.SCALE}
+              />
+              <BellIcon textColor="white" fontSize="xl" />
+            </MenuButton>
+              <MenuList pl={2}>
+                {!notification.length && "No New Messages"}
+                {notification.map((notif) => (
+                  <MenuItem
+                    key={notif._id}
+                    onClick={() => {
+                      setSelectedChat(notif.chat);
+                      setNotification(notification.filter((n) => n !== notif));
+                    }}
+                  >
+                    {notif.chat.isGroupChat
+                      ? `New Message`
+                      : ""}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
           </li>
         </ul>
       </div>

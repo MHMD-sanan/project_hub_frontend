@@ -95,7 +95,7 @@ function Projects() {
                       <p className="text-center">Status</p>
                     </th>
                     <th scope="col" className="py-3">
-                      <p className="text-center">dsdsdsd</p>
+                      <p className="text-center"></p>
                     </th>
                   </tr>
                 </thead>
@@ -111,7 +111,22 @@ function Projects() {
                         {item.status === "not started" ? (
                           <Badge colorScheme="purple">{item.status}</Badge>
                         ) : (
-                          " "
+                          ""
+                        )}
+                        {item.status === "started" ? (
+                          <Badge colorScheme="blue">{item.status}</Badge>
+                        ) : (
+                          ""
+                        )}
+                        {item.status === "due" ? (
+                          <Badge colorScheme="red">{item.status}</Badge>
+                        ) : (
+                          ""
+                        )}
+                        {item.status === "completed" ? (
+                          <Badge colorScheme="green">{item.status}</Badge>
+                        ) : (
+                          ""
                         )}
                       </td>
                       <td className="px-6 py-4 text-center">
@@ -122,7 +137,7 @@ function Projects() {
                         >
                           <div className="flex">
                             <p>View More</p>
-                            <AiOutlineArrowRight className="ml-2 mt-1"/>
+                            <AiOutlineArrowRight className="ml-2 mt-1" />
                           </div>
                         </button>
                       </td>

@@ -36,39 +36,6 @@ function SinlgleProject() {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  // useEffect(() => {
-  //   const getKanban = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const { data } = await axios.post(
-  //         "/view_singleProject",
-  //         { id },
-  //         {
-  //           headers: { "Content-Type": "application/json" },
-  //           withCredentials: true,
-  //           // eslint-disable-next-line comma-dangle
-  //         }
-  //       );
-  //       dispatch(
-  //         setBoard({
-  //           board: data.kanban.boards,
-  //           // eslint-disable-next-line comma-dangle
-  //         })
-  //       );
-  //       setLoading(false);
-  //     } catch (error) {
-  //       toast({
-  //         title: 'Something went wrong',
-  //         status: "error",
-  //         duration: 5000,
-  //         position: "top-right",
-  //         isClosable: true,
-  //       })
-  //     }
-  //   }
-  //   getKanban();
-  // }, []);
-
   const addboardHandler = async (name, privileges) => {
     const { data } = await axios.patch("/add_board", { name, id, privileges });
     dispatch(
